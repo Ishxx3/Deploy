@@ -1,0 +1,14 @@
+node_modules
+dist
+.env
+backend/dev.db
+backend/dev.db-journal
+*.log
+.api-port
+backend/uploads/*
+!backend/uploads/.gitkeep
+backend/data/
+backend/public/
+
+# Local Netlify folder
+.netlify

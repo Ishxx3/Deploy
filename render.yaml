@@ -1,0 +1,21 @@
+# Un seul service : site React + API + SQLite (fichier) + uploads — une URL, pas de VITE_API_URL.
+# https://render.com → New → Blueprint → connecter ce dépôt.
+# Il ne reste qu’à ajouter JWT_SECRET dans l’interface Render (Environment).
+
+services:
+  - type: web
+    name: raa
+    runtime: node
+    region: frankfurt
+    plan: free
+    rootDir: .
+    buildCommand: node scripts/render-build.mjs
+    startCommand: cd backend && node dist/server.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        value: file:./data/prod.db
+      - key: JWT_SECRET
+        sync: false

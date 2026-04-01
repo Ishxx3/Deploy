@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
+
+enum VehicleStatus {
+  DRAFT
+  PUBLISHED
+  SOLD
+}
+
+model Vehicle {
+  id           String          @id @default(cuid())
+  title        String
+  brand        String
+  model        String
+  year         Int
+  priceXof     Int
+  mileageKm    Int
+  fuel         String
+  transmission String
+  description  String
+  images       String
+  status       VehicleStatus   @default(DRAFT)
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  inquiries    Inquiry[]
+}
+
+model Inquiry {
+  id         String   @id @default(cuid())
+  name       String
+  email      String
+  phone      String?
+  message    String
+  vehicleId  String?
+  vehicle    Vehicle? @relation(fields: [vehicleId], references: [id], onDelete: SetNull)
+  createdAt  DateTime @default(now())
+}

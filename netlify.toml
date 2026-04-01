@@ -1,0 +1,6 @@
+# Ce projet se déploie sur Render (voir DEPLOY.md) : site + API sur une URL.
+# Pas de configuration Netlify à utiliser.
+
+[build]
+  publish = "frontend/dist"
+  command = "echo 'Utilisez Render, pas Netlify — lisez DEPLOY.md' && exit 1"
