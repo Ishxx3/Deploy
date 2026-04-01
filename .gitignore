@@ -3,6 +3,11 @@ dist
 .env
 backend/dev.db
 backend/dev.db-journal
+# Prisma peut créer le .db à côté du schéma selon DATABASE_URL
+backend/prisma/*.db
+backend/prisma/*.db-journal
+backend/**/*.db
+backend/**/*.db-journal
 *.log
 .api-port
 backend/uploads/*
