@@ -12,9 +12,13 @@ const run = (cmd, cwd = root) => {
   execSync(cmd, { cwd, stdio: "inherit", shell: true });
 };
 
-run("npm install --prefix frontend");
+/**
+ * Render fixe souvent NODE_ENV=production au build : sans ça, npm omet les
+ * devDependencies → pas de vite/typescript/@types → échec de `tsc` / `vite build`.
+ */
+run("npm install --prefix frontend --include=dev");
 run("npm run build --prefix frontend");
-run("npm install --prefix backend");
+run("npm install --prefix backend --include=dev");
 
 const pub = path.join(root, "backend", "public");
 const dist = path.join(root, "frontend", "dist");

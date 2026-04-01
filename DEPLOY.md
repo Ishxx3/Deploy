@@ -89,6 +89,7 @@ Le **premier build** peut prendre plusieurs minutes (`npm install`, build Vite, 
 2. Vérifiez **Environment** → **`JWT_SECRET`** est défini (long texte, sans espaces en trop).
 3. Souvent le **health check** échoue si le serveur n’écoute pas sur `0.0.0.0` : le dépôt est corrigé pour Render (`RENDER` → écoute `0.0.0.0`). Faites **git push** des derniers commits puis **Manual Deploy**.
 4. Variable **`DATABASE_URL`** : avec le `render.yaml` actuel, elle doit être `file:../data/prod.db` (chemin correct depuis `prisma/`).
+5. Erreur **`Cannot find type definition file for 'vite/client'`** au build : Render installe sans les `devDependencies` si `NODE_ENV=production`. Le script `scripts/render-build.mjs` utilise `npm install --include=dev` pour corriger ça ; poussez la dernière version du dépôt.
 
 ---
 
