@@ -83,7 +83,16 @@ Le **premier build** peut prendre plusieurs minutes (`npm install`, build Vite, 
 
 ---
 
-## 6. Limites de l’offre gratuite
+## 6. Si le déploiement affiche « deploy failed »
+
+1. Service **raa** → **Logs** : remontez au **premier** message d’erreur (build ou démarrage).
+2. Vérifiez **Environment** → **`JWT_SECRET`** est défini (long texte, sans espaces en trop).
+3. Souvent le **health check** échoue si le serveur n’écoute pas sur `0.0.0.0` : le dépôt est corrigé pour Render (`RENDER` → écoute `0.0.0.0`). Faites **git push** des derniers commits puis **Manual Deploy**.
+4. Variable **`DATABASE_URL`** : avec le `render.yaml` actuel, elle doit être `file:../data/prod.db` (chemin correct depuis `prisma/`).
+
+---
+
+## 7. Limites de l’offre gratuite
 
 - Le service peut **mettre du temps à répondre** après une période d’inactivité (démarrage à froid).
 - Sur le plan gratuit, le **disque** (fichier SQLite + uploads) peut être réinitialisé dans certains cas ; pour une base client sérieuse, prévoyez plus tard une offre payante ou des sauvegardes.

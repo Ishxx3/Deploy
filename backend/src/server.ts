@@ -11,18 +11,25 @@ const app = createApp();
 
 function startServer(port: number) {
   const server = http.createServer(app);
-  server.listen(port, () => {
-    const publicDir = path.join(process.cwd(), "public");
-    const bundledSite = fs.existsSync(path.join(publicDir, "index.html"));
-    const where = bundledSite ? "site + API" : "API";
-    console.log(`RAA ${where} → http://localhost:${port}`);
+  /** Render : écouter sur 0.0.0.0 (obligatoire pour le health check) */
+  const onRender = Boolean(process.env.RENDER);
+  const publicDir = path.join(process.cwd(), "public");
+  const bundledSite = fs.existsSync(path.join(publicDir, "index.html"));
+  const where = bundledSite ? "site + API" : "API";
+  const onListen = () => {
+    console.log(`RAA ${where} → port ${port}${onRender ? " (0.0.0.0)" : ""}`);
     try {
       const portFile = path.join(__dirname, "../../.api-port");
       fs.writeFileSync(portFile, String(port), "utf8");
     } catch {
       /* ignore */
     }
-  });
+  };
+  if (onRender) {
+    server.listen(port, "0.0.0.0", onListen);
+  } else {
+    server.listen(port, onListen);
+  }
   server.on("error", (err: NodeJS.ErrnoException) => {
     if (err.code === "EADDRINUSE" && port < 4020) {
       console.warn(
