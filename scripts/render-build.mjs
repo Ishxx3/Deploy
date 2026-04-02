@@ -31,4 +31,4 @@ cpSync(dist, pub, { recursive: true });
 
 mkdirSync(path.join(root, "backend", "data"), { recursive: true });
 
-run("npx prisma generate && npx prisma db push && npm run build", path.join(root, "backend"));
+run("npx prisma generate && npx prisma db push && npm run db:seed && npm run build", path.join(root, "backend"));
